@@ -104,7 +104,22 @@ Vector2D SteeringBehavior::Arrive(Agent *agent, Vector2D target, float dtime, fl
 	} 
 }
 
-Vector2D SteeringBehavior::Arrive(Agent *agent, Agent *target, float dtime, float slowingRadius)
+Vector2D SteeringBehavior::Pursue(Agent *agent, Vector2D target, float dtime)
 {
-	return Arrive(agent, target->position, dtime, slowingRadius);
+	Vector2D desiredVelocity = target - agent->position;
+
+	desiredVelocity.Normalize();
+	desiredVelocity *= agent->max_velocity;
+
+	Vector2D seeringForce = desiredVelocity - agent->velocity;
+	seeringForce /= agent->max_velocity;
+	seeringForce *= agent->max_force;
+	return seeringForce;
+
 }
+
+Vector2D SteeringBehavior::Pursue(Agent *agent, Agent *target, float dtime)
+{
+	return Pursue(agent, target->position, dtime);
+}
+

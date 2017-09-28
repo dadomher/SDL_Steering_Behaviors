@@ -3,12 +3,12 @@
 #include "Scene.h"
 #include "Agent.h"
 
-class SceneSeekSeek :
+class ScenePursue :
 	public Scene
 {
 public:
-	SceneSeekSeek();
-	~SceneSeekSeek();
+	ScenePursue();
+	~ScenePursue();
 	void update(float dtime, SDL_Event *event);
 	void draw();
 	const char* getTitle();
@@ -17,3 +17,4 @@ private:
 	Vector2D target;
 };
 
+#pragma once
