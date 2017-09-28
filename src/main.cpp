@@ -9,6 +9,7 @@
 #include "SceneFlee.h"
 #include "SceneArrive.h"
 #include "SceneEvade.h"
+#include "ScenePursue.h"
 
 
 using namespace std;
@@ -66,6 +67,12 @@ int main(int argc, char ** argv)
 			{
 				delete(curr_scene);
 				curr_scene = new SceneEvade;
+				app->setWindowTitle(curr_scene->getTitle());
+			}
+			if (event.key.keysym.scancode == SDL_SCANCODE_6)
+			{
+				delete(curr_scene);
+				curr_scene = new ScenePursue;
 				app->setWindowTitle(curr_scene->getTitle());
 			}
 			if ((event.key.keysym.scancode == SDL_SCANCODE_Q) || (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
