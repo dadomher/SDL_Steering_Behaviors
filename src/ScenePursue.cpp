@@ -43,7 +43,7 @@ void ScenePursue::update(float dtime, SDL_Event *event)
 	}
 
 	Vector2D steering_force = agents[0]->Behavior()->Seek(agents[0], agents[0]->getTarget(), dtime);
-	Vector2D steering_force2 = agents[0]->Behavior()->Pursue(agents[1], agents[0]->getTarget(), dtime);
+	Vector2D steering_force2 = agents[0]->Behavior()->Pursue(agents[1], agents[0], dtime);
 	agents[0]->update(steering_force, dtime, event);
 	agents[1]->update(steering_force2, dtime, event);
 }
@@ -57,5 +57,5 @@ void ScenePursue::draw() {
 
 const char* ScenePursue::getTitle()
 {
-	return "SDL Steering Behaviors :: Seek Demo";
+	return "SDL Steering Behaviors :: Pursue Demo";
 }

@@ -104,9 +104,15 @@ Vector2D SteeringBehavior::Arrive(Agent *agent, Vector2D target, float dtime, fl
 	} 
 }
 
-Vector2D SteeringBehavior::Pursue(Agent *agent, Vector2D target, float dtime)
-{
-	Vector2D desiredVelocity = target - agent->position;
+Vector2D SteeringBehavior::Arrive(Agent *agent, Agent *target, float dtime, float slowingRadius) {
+	return Arrive(agent, target->position, dtime, slowingRadius);
+}
+
+Vector2D SteeringBehavior::Pursue(Agent *agent, Vector2D target, Vector2D targetVelocity, float dtime) {
+
+	Vector2D predictedTarget = target + Vector2D::Dot((targetVelocity), (agent->velocity / Vector2D::Distance(target, targetVelocity)));
+
+	Vector2D desiredVelocity = predictedTarget - agent->position;
 
 	desiredVelocity.Normalize();
 	desiredVelocity *= agent->max_velocity;
@@ -118,16 +124,14 @@ Vector2D SteeringBehavior::Pursue(Agent *agent, Vector2D target, float dtime)
 
 }
 
-Vector2D SteeringBehavior::Pursue(Agent *agent, Agent *target, float dtime)
-{
-	return Arrive(agent, target->position, dtime, slowingRadius);
+Vector2D SteeringBehavior::Pursue(Agent *agent, Agent *target, float dtime) {
+	return Pursue(agent, target->position, target->velocity, dtime);
 }
 
 
 Vector2D SteeringBehavior::Evade(Agent *agent, Vector2D target, Vector2D targetVelocity, float dtime) {
 
-	//Vector2D predictedTarget = target + targetVelocity * (agent->velocity / Vector2D::Distance(target, agent->position));
-	Vector2D predictedTarget = Vector2D::Dot((target + targetVelocity), (agent->velocity / Vector2D::Distance(target, targetVelocity)));
+	Vector2D predictedTarget = target + Vector2D::Dot((targetVelocity), (agent->velocity / Vector2D::Distance(target, targetVelocity)));
 
 	Vector2D desiredVelocity = agent->position - predictedTarget;
 
@@ -140,7 +144,17 @@ Vector2D SteeringBehavior::Evade(Agent *agent, Vector2D target, Vector2D targetV
 	return seeringForce;
 }
 
-Vector2D SteeringBehavior::Evade(Agent *agent, Agent *target, float dtime)
-{
+Vector2D SteeringBehavior::Evade(Agent *agent, Agent *target, float dtime) {
 	return Evade(agent, target->position, target->velocity, dtime);
+}
+
+
+Vector2D SteeringBehavior::Wander(Agent *agent, float angle, float *wanderAngle, int wanderMaxChange, int wanderCircleOffset, int wanderCircleRadius, float dtime) {
+
+	Vector2D seeringForce;
+	seeringForce.x = (agent->velocity + wanderCircleOffset).x + wanderCircleRadius * cos(*wanderAngle);
+	seeringForce.y = agent->velocity.y + wanderCircleOffset + wanderCircleRadius * sin(*wanderAngle);
+
+	return seeringForce;
+
 }
