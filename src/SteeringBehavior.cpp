@@ -148,13 +148,31 @@ Vector2D SteeringBehavior::Evade(Agent *agent, Agent *target, float dtime) {
 	return Evade(agent, target->position, target->velocity, dtime);
 }
 
+float SteeringBehavior::RandomBinomial() {
+	return ((float)rand() / (RAND_MAX)) - ((float)rand() / (RAND_MAX));
+}
 
 Vector2D SteeringBehavior::Wander(Agent *agent, float angle, float *wanderAngle, int wanderMaxChange, int wanderCircleOffset, int wanderCircleRadius, float dtime) {
 
-	Vector2D seeringForce;
-	seeringForce.x = (agent->velocity + wanderCircleOffset).x + wanderCircleRadius * cos(*wanderAngle);
-	seeringForce.y = agent->velocity.y + wanderCircleOffset + wanderCircleRadius * sin(*wanderAngle);
+	*wanderAngle += RandomBinomial() * wanderMaxChange;
+	float targetAngle = angle + *wanderAngle;
 
+	Vector2D circleCenter = agent->position + Vector2D::Normalize(agent->velocity) * wanderCircleOffset;
+	//draw_circle(TheApp::Instance()->getRenderer(), circleCenter.x, circleCenter.y, wanderCircleRadius, 255, 255, 255, 255);
+
+	Vector2D targetPosition;
+	targetPosition.x = circleCenter.x + wanderCircleRadius * cos(targetAngle);
+	targetPosition.y = circleCenter.y + wanderCircleRadius * sin(targetAngle);
+	//draw_circle(TheApp::Instance()->getRenderer(), targetPosition.x, targetPosition.y, 20, 255, 255, 255, 255);
+
+	Vector2D desiredVelocity = targetPosition - agent->position;
+
+	desiredVelocity.Normalize();
+	desiredVelocity *= agent->max_velocity;
+
+	Vector2D seeringForce = desiredVelocity - agent->velocity;
+	seeringForce /= agent->max_velocity;
+	seeringForce *= agent->max_force;
 	return seeringForce;
 
 }

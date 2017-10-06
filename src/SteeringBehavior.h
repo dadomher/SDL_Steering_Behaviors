@@ -28,4 +28,6 @@ public:
 	Vector2D Wander(Agent *agent, float angle, float *wanderAngle, int wanderMaxChange, int wanderCircleOffset, int wanderCircleRadius, float dtime);
 	//etc...
 
+	float RandomBinomial();
+
 };

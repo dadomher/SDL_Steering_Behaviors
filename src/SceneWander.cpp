@@ -2,8 +2,7 @@
 
 using namespace std;
 
-SceneWander::SceneWander()
-{
+SceneWander::SceneWander() {
 	Agent *agent = new Agent;
 	agent->setPosition(Vector2D(640,360));
 	agent->setTarget(Vector2D(640, 360));
@@ -19,16 +18,14 @@ SceneWander::SceneWander()
 	wanderDisplacementVector = {};
 }
 
-SceneWander::~SceneWander()
-{
+SceneWander::~SceneWander() {
 	for (int i = 0; i < (int)agents.size(); i++)
 	{
 		delete agents[i];
 	}
 }
 
-void SceneWander::update(float dtime, SDL_Event *event)
-{
+void SceneWander::update(float dtime, SDL_Event *event) {
 	/* Keyboard & Mouse events */
 	switch (event->type) {
 	case SDL_MOUSEMOTION:
@@ -49,12 +46,10 @@ void SceneWander::update(float dtime, SDL_Event *event)
 	agents[0]->update(steering_force, dtime, event);
 }
 
-void SceneWander::draw()
-{
+void SceneWander::draw() {
 	agents[0]->draw();
 }
 
-const char* SceneWander::getTitle()
-{
+const char* SceneWander::getTitle() {
 	return "SDL Steering Behaviors :: Wander Demo";
 }

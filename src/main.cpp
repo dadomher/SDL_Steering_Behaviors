@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <time.h>
 
 #include "SDL_SimpleApp.h"
 #include "SceneKinematicSeek.h"
@@ -11,6 +12,7 @@
 #include "SceneEvade.h"
 #include "ScenePursue.h"
 #include "SceneWander.h"
+#include "ScenePathFollowing.h"
 
 using namespace std;
 
@@ -23,6 +25,8 @@ int main(int argc, char ** argv)
 
 	Scene *curr_scene = new SceneKinematicSeek;
 	app->setWindowTitle(curr_scene->getTitle());
+
+	srand(time(NULL));
 
 	while (!quit)
 	{
@@ -79,6 +83,12 @@ int main(int argc, char ** argv)
 			{
 				delete(curr_scene);
 				curr_scene = new SceneWander;
+				app->setWindowTitle(curr_scene->getTitle());
+			}
+			if (event.key.keysym.scancode == SDL_SCANCODE_9)
+			{
+				delete(curr_scene);
+				curr_scene = new ScenePathFollowing;
 				app->setWindowTitle(curr_scene->getTitle());
 			}
 			if ((event.key.keysym.scancode == SDL_SCANCODE_Q) || (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
