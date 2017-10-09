@@ -18,5 +18,9 @@ private:
 };
 
 struct Path {
-	Vector2D pathArray[];
-};
+	Vector2D pathArray[5];
+} c1;
+
+Vector2D GetPosition(float parameter) {
+	return c1.pathArray[parameter];
+}
