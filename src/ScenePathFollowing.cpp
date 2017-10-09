@@ -42,6 +42,10 @@ void ScenePathFollowing::update(float dtime, SDL_Event *event) {
 	Vector2D steering_force = agents[0]->Behavior()->Seek(agents[0], agents[0]->getTarget(), dtime);
 	agents[0]->update(steering_force, dtime, event);*/
 
+
+	//EL LLUIS Y EL EDU LA CHUPAN//
+
+
 	switch (event->type) {
 		target = c1.pathArray[agents[0]->indexCurrentAgent];
 		if (Vector2D::Distance(agents[0]->getPosition, target) < 10.f) {
