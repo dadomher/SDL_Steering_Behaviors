@@ -12,15 +12,9 @@ public:
 	void update(float dtime, SDL_Event *event);
 	void draw();
 	const char* getTitle();
+	int GetParameter(Vector2D position);
 private:
 	std::vector<Agent*> agents;
 	Vector2D target;
+	Vector2D path[6];
 };
-
-struct Path {
-	Vector2D pathArray[5];
-} c1;
-
-Vector2D GetPosition(float parameter) {
-	return c1.pathArray[parameter];
-}
